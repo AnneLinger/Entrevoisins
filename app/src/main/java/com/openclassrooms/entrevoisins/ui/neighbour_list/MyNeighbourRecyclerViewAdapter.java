@@ -1,6 +1,9 @@
 package com.openclassrooms.entrevoisins.ui.neighbour_list;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,20 +13,29 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.gson.Gson;
 import com.openclassrooms.entrevoisins.R;
 import com.openclassrooms.entrevoisins.events.DeleteNeighbourEvent;
 import com.openclassrooms.entrevoisins.model.Neighbour;
 
 import org.greenrobot.eventbus.EventBus;
+import org.json.JSONObject;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class MyNeighbourRecyclerViewAdapter extends RecyclerView.Adapter<MyNeighbourRecyclerViewAdapter.ViewHolder> {
 
     private final List<Neighbour> mNeighbours;
+    private final String TAG = getClass().getSimpleName();
+    private final String NEIGHBOUR = "NEIGHBOUR";
+    private final String NEIGHBOUR_AVATAR = "NEIGHBOUR_AVATAR";
+    private final String NEIGHBOUR_NAME = "NEIGHBOUR_NAME";
+    private final String NEIGHBOUR_ID = "NEIGHBOUR_ID";
+    private final String NEIGHBOUR_ADDRESS = "NEIGHBOUR_ADDRESS";
 
     public MyNeighbourRecyclerViewAdapter(List<Neighbour> items) {
         mNeighbours = items;
@@ -51,6 +63,28 @@ public class MyNeighbourRecyclerViewAdapter extends RecyclerView.Adapter<MyNeigh
                 EventBus.getDefault().post(new DeleteNeighbourEvent(neighbour));
             }
         });
+
+        //Navigate to NeighbourDetailsActivity
+        holder.mNeighbourName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Gson gson = new Gson();
+                String neighbourJson = gson.toJson(neighbour);
+
+                Intent intent = new Intent(view.getContext(), NeighbourDetailsActivity.class);
+
+                intent.putExtra(NEIGHBOUR, neighbourJson);
+
+                /**intent.putExtra(NEIGHBOUR_AVATAR, neighbour.getAvatarUrl());
+                intent.putExtra(NEIGHBOUR_NAME, neighbour.getName());
+                intent.putExtra(NEIGHBOUR_ID, neighbour.getId());
+                intent.putExtra(NEIGHBOUR_ADDRESS, neighbour.getAddress());
+                intent.putExtra(AVATAR_DETAIL, neighbour.getAvatarUrl());*/
+
+                view.getContext().startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -71,4 +105,5 @@ public class MyNeighbourRecyclerViewAdapter extends RecyclerView.Adapter<MyNeigh
             ButterKnife.bind(this, view);
         }
     }
+
 }

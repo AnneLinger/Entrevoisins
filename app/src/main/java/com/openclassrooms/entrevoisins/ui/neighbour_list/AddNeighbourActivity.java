@@ -113,4 +113,5 @@ public class AddNeighbourActivity extends AppCompatActivity {
         Intent intent = new Intent(activity, AddNeighbourActivity.class);
         ActivityCompat.startActivity(activity, intent, null);
     }
+
 }

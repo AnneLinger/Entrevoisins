@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    android:orientation="vertical"
+    tools:context=".ui.neighbour_list.NeighbourDetailsActivity">
+
+    <!--First CardView-->
+    <android.support.v7.widget.CardView
+        android:id="@+id/cv_top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/cv_middle"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <!--Avatar picture-->
+            <ImageView
+                android:id="@+id/im_avatar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="250dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:scaleType="centerCrop"
+                android:adjustViewBounds="true"/>
+
+            <!--Toolbar for back button-->
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/tb_details"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:theme="@style/ToolbarTheme"
+                tools:ignore="MissingConstraints" />
+
+            <!--Neighbour name-->
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginBottom="24dp"
+                android:textColor="@color/colorWhite"
+                android:textSize="32sp"
+                app:layout_constraintBottom_toBottomOf="@id/im_avatar"
+                app:layout_constraintStart_toStartOf="parent" />
+
+        </android.support.constraint.ConstraintLayout>
+
+    </android.support.v7.widget.CardView>
+
+    <!--FloatingActionButton for favourite-->
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/bt_favourite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="16dp"
+        app:layout_constraintBottom_toBottomOf="@id/cv_top"
+        app:layout_constraintTop_toBottomOf="@id/cv_top"
+        app:layout_constraintRight_toRightOf="parent"
+        app:backgroundTint="@color/colorWhite"
+        app:srcCompat="@drawable/ic_star_border_yellow_24dp" />
+
+    <!--Second CardView-->
+    <android.support.v7.widget.CardView
+        android:id="@+id/cv_middle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"
+        android:background="@color/colorWhite"
+        app:layout_constraintBottom_toTopOf="@id/cv_bottom"
+        app:layout_constraintTop_toBottomOf="@id/cv_top">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <!--Neighbour name-->
+            <TextView
+                android:id="@+id/tv_little_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="4dp"
+                android:textSize="22sp"
+                android:textColor="@color/colorTitle"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/vw_first_line"/>
+
+            <!--Separation line-->
+            <View
+                android:id="@+id/vw_first_line"
+                android:layout_width="match_parent"
+                android:layout_height=".5dp"
+                android:background="@color/colorBackground"
+                app:layout_constraintTop_toBottomOf="@id/tv_little_name"
+                app:layout_constraintBottom_toTopOf="@id/tv_address"/>
+
+
+            <!--Location icon-->
+            <ImageView
+                android:id="@+id/iv_icon_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                app:layout_constraintBottom_toBottomOf="@id/tv_address"
+                app:layout_constraintTop_toTopOf="@id/tv_address"
+                android:src="@drawable/ic_baseline_location_on_24"/>
+
+            <!--Neighbour address-->
+            <TextView
+                android:id="@+id/tv_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginLeft="48dp"
+                app:layout_constraintTop_toBottomOf="@id/vw_first_line"
+                app:layout_constraintBottom_toTopOf="@id/tv_phone_number" />
+
+            <!--Phone icon-->
+            <ImageView
+                android:id="@+id/iv_icon_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                app:layout_constraintBottom_toBottomOf="@id/tv_phone_number"
+                app:layout_constraintTop_toTopOf="@id/tv_phone_number"
+                android:src="@drawable/ic_baseline_phone_24"/>
+
+            <!--Neighbour phone number-->
+            <TextView
+                android:id="@+id/tv_phone_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginLeft="48dp"
+                app:layout_constraintTop_toBottomOf="@id/tv_address"
+                app:layout_constraintBottom_toTopOf="@id/tv_social"/>
+
+            <!--Social icon-->
+            <ImageView
+                android:id="@+id/iv_icon_social"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                app:layout_constraintBottom_toBottomOf="@id/tv_social"
+                app:layout_constraintTop_toTopOf="@id/tv_social"
+                android:src="@drawable/ic_baseline_language_24"/>
+
+            <!--Neighbour social-->
+            <TextView
+                android:id="@+id/tv_social"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginLeft="48dp"
+                app:layout_constraintTop_toBottomOf="@id/tv_phone_number"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+        </android.support.constraint.ConstraintLayout>
+
+    </android.support.v7.widget.CardView>
+
+    <!--Third CardView-->
+    <android.support.v7.widget.CardView
+        android:id="@+id/cv_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:layout_constraintTop_toBottomOf="@id/cv_middle">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!--About me title-->
+            <TextView
+                android:id="@+id/tv_about_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="4dp"
+                android:textSize="22sp"
+                android:textColor="@color/colorTitle"
+                android:text="@string/about_me"
+                android:background="@color/colorWhite"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/vw_second_line"/>
+
+            <!--Second separation line-->
+            <View
+                android:id="@+id/vw_second_line"
+                android:layout_width="match_parent"
+                android:layout_height=".5dp"
+                android:background="@color/colorBackground"
+                app:layout_constraintTop_toBottomOf="@id/tv_about_title"
+                app:layout_constraintBottom_toTopOf="@id/tv_about_text"/>
+
+            <!--About me text-->
+            <TextView
+                android:id="@+id/tv_about_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:justificationMode="inter_word"
+                android:background="@color/colorWhite"
+                app:layout_constraintTop_toBottomOf="@id/vw_second_line"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+        </android.support.constraint.ConstraintLayout>
+
+    </android.support.v7.widget.CardView>
+
+
+
+</android.support.constraint.ConstraintLayout>
