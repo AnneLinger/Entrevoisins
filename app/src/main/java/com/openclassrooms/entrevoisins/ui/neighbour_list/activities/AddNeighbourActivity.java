@@ -1,4 +1,4 @@
-package com.openclassrooms.entrevoisins.ui.neighbour_list;
+package com.openclassrooms.entrevoisins.ui.neighbour_list.activities;
 
 import android.content.Intent;
 import android.support.design.button.MaterialButton;
@@ -26,6 +26,7 @@ import butterknife.OnClick;
 
 public class AddNeighbourActivity extends AppCompatActivity {
 
+    //UI components
     @BindView(R.id.avatar)
     ImageView avatar;
     @BindView(R.id.nameLyt)
@@ -41,6 +42,7 @@ public class AddNeighbourActivity extends AppCompatActivity {
 
     private NeighbourApiService mApiService;
     private String mNeighbourImage;
+
     //TAG for lifecycle (logs)
     private final String TAG = getClass().getSimpleName();
 
@@ -52,9 +54,10 @@ public class AddNeighbourActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mApiService = DI.getNeighbourApiService();
         init();
-        Log.d(TAG, "onCreate: ");
-    }
 
+        Log.d(TAG, "onCreate:  Anne");    }
+
+    //Back button configuration
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -67,9 +70,12 @@ public class AddNeighbourActivity extends AppCompatActivity {
     }
 
     private void init() {
+        //Add the random image recover by randomImage() into avatar
         mNeighbourImage = randomImage();
         Glide.with(this).load(mNeighbourImage).placeholder(R.drawable.ic_account)
                 .apply(RequestOptions.circleCropTransform()).into(avatar);
+
+        //Set button save enabled if nameInput is completed
         nameInput.getEditText().addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
@@ -80,9 +86,9 @@ public class AddNeighbourActivity extends AppCompatActivity {
                 addButton.setEnabled(s.length() > 0);
             }
         });
-
     }
 
+    //Neighbour created when button save clicked
     @OnClick(R.id.create)
     void addNeighbour() {
         Neighbour neighbour = new Neighbour(
@@ -93,7 +99,7 @@ public class AddNeighbourActivity extends AppCompatActivity {
                 phoneInput.getEditText().getText().toString(),
                 aboutMeInput.getEditText().getText().toString()
         );
-        mApiService.createNeighbour(neighbour);
+        mApiService.addNeighbour(neighbour, false);
         finish();
     }
 

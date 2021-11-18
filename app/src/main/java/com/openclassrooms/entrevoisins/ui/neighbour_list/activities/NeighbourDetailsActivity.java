@@ -1,6 +1,5 @@
-package com.openclassrooms.entrevoisins.ui.neighbour_list;
+package com.openclassrooms.entrevoisins.ui.neighbour_list.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -8,30 +7,23 @@ import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.support.v7.widget.Toolbar;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.openclassrooms.entrevoisins.R;
+import com.openclassrooms.entrevoisins.di.DI;
 import com.openclassrooms.entrevoisins.model.Neighbour;
+import com.openclassrooms.entrevoisins.service.NeighbourApiService;
 
+import java.util.List;
 import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class NeighbourDetailsActivity extends AppCompatActivity{
-
-    //TAG for lifecycle (logs)
-    private final String TAG = getClass().getSimpleName();
-
-    //Key for Gson
-    private final String NEIGHBOUR = "NEIGHBOUR";
-
-    //Object
-    private Neighbour mNeighbour;
-
-    //Social String
-    private final String mSocialText = "www.facebook.fr/";
 
     //UI components
     @BindView(R.id.tb_details)
@@ -40,8 +32,8 @@ public class NeighbourDetailsActivity extends AppCompatActivity{
     ImageView mAvatar;
     @BindView(R.id.tv_name)
     TextView mName;
-    @BindView(R.id.bt_favourite)
-    FloatingActionButton mFavouriteButton;
+    @BindView(R.id.bt_favorite)
+    FloatingActionButton mFavoriteButton;
     @BindView(R.id.tv_little_name)
     TextView mLittleName;
     @BindView(R.id.tv_address)
@@ -53,19 +45,29 @@ public class NeighbourDetailsActivity extends AppCompatActivity{
     @BindView(R.id.tv_about_text)
     TextView mAboutText;
 
+    private Neighbour mNeighbour;
+    private NeighbourApiService mApiService = DI.getNeighbourApiService();
+    private List<Neighbour> mFavoritesNeighboursList = mApiService.getNeighbours(true);
+
+    //Key for Gson
+    private final String NEIGHBOUR = "NEIGHBOUR";
+
+    //Social String
+    private final String mSocialText = "www.facebook.fr/";
+
+    //TAG for lifecycle (logs)
+    private final String TAG = getClass().getSimpleName();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_neighbour_details);
-        Log.d(TAG, "onCreate:  Anne");
-
-        //UI connexion
         ButterKnife.bind(this);
 
         //Toolbar configuration
         this.configureToolbar();
 
-        //Gson to recover object Neighbour
+        //Gson to recover mNeighbour
         Gson gson = new Gson();
         mNeighbour = gson.fromJson(getIntent().getStringExtra(NEIGHBOUR), Neighbour.class);
 
@@ -77,9 +79,16 @@ public class NeighbourDetailsActivity extends AppCompatActivity{
         mPhoneNumber.setText(mNeighbour.getPhoneNumber());
         mSocial.setText(mSocialText+mNeighbour.getName().toLowerCase(Locale.ROOT));
         mAboutText.setText(mNeighbour.getAboutMe());
+
+        //Check if mNeighbour is a favorite or no to define mFavoriteButton
+        if (mFavoritesNeighboursList.contains(mNeighbour)){
+            mFavoriteButton.setImageDrawable(getDrawable(R.drawable.ic_star_yellow_24dp));
+        }
+
+        Log.d(TAG, "onCreate:  Anne");
     }
 
-    //Method for toolbar configuration
+    //Toolbar configuration
     private void configureToolbar(){
         //Toolbar as ActionBar
         setSupportActionBar(mToolbar);
@@ -90,4 +99,21 @@ public class NeighbourDetailsActivity extends AppCompatActivity{
         //Title hidden
         getSupportActionBar().setDisplayShowTitleEnabled(false);
     }
+
+    //FavoriteButton configuration
+    @OnClick(R.id.bt_favorite)
+        void addOrRemoveFavoriteNeighbour() {
+            if (mFavoritesNeighboursList.contains(mNeighbour)){
+                mApiService.deleteNeighbour(mNeighbour, true);
+                mFavoriteButton.setImageDrawable(getDrawable(R.drawable.ic_star_border_yellow_24dp));
+                Toast toast = Toast.makeText(this, getString(R.string.remove_from_favorites), Toast.LENGTH_LONG);
+                toast.show();
+            }
+            else {
+                mApiService.addNeighbour(mNeighbour, true);
+                mFavoriteButton.setImageDrawable(getDrawable(R.drawable.ic_star_yellow_24dp));
+                Toast toast = Toast.makeText(this, getString(R.string.add_to_favorites), Toast.LENGTH_LONG);
+                toast.show();
+            }
+        }
 }

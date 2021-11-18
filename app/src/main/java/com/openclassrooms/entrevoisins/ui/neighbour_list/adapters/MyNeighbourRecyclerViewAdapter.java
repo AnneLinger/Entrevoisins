@@ -1,9 +1,7 @@
-package com.openclassrooms.entrevoisins.ui.neighbour_list;
+package com.openclassrooms.entrevoisins.ui.neighbour_list.adapters;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,30 +15,26 @@ import com.google.gson.Gson;
 import com.openclassrooms.entrevoisins.R;
 import com.openclassrooms.entrevoisins.events.DeleteNeighbourEvent;
 import com.openclassrooms.entrevoisins.model.Neighbour;
+import com.openclassrooms.entrevoisins.ui.neighbour_list.activities.NeighbourDetailsActivity;
 
 import org.greenrobot.eventbus.EventBus;
-import org.json.JSONObject;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class MyNeighbourRecyclerViewAdapter extends RecyclerView.Adapter<MyNeighbourRecyclerViewAdapter.ViewHolder> {
 
-    private final List<Neighbour> mNeighbours;
-    private final String TAG = getClass().getSimpleName();
+    private final List<Neighbour> mNeighbourList;
     private final String NEIGHBOUR = "NEIGHBOUR";
-    private final String NEIGHBOUR_AVATAR = "NEIGHBOUR_AVATAR";
-    private final String NEIGHBOUR_NAME = "NEIGHBOUR_NAME";
-    private final String NEIGHBOUR_ID = "NEIGHBOUR_ID";
-    private final String NEIGHBOUR_ADDRESS = "NEIGHBOUR_ADDRESS";
 
+    //Constructor
     public MyNeighbourRecyclerViewAdapter(List<Neighbour> items) {
-        mNeighbours = items;
+        mNeighbourList = items;
     }
 
+    //Create ViewHolder
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
@@ -48,15 +42,19 @@ public class MyNeighbourRecyclerViewAdapter extends RecyclerView.Adapter<MyNeigh
         return new ViewHolder(view);
     }
 
+    //ViewHolder configuration
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        Neighbour neighbour = mNeighbours.get(position);
+
+        //ViewHolder filled with neighbour details
+        Neighbour neighbour = mNeighbourList.get(position);
         holder.mNeighbourName.setText(neighbour.getName());
         Glide.with(holder.mNeighbourAvatar.getContext())
                 .load(neighbour.getAvatarUrl())
                 .apply(RequestOptions.circleCropTransform())
                 .into(holder.mNeighbourAvatar);
 
+        //Button call a new DeleteNeighbourEvent
         holder.mDeleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,7 +62,7 @@ public class MyNeighbourRecyclerViewAdapter extends RecyclerView.Adapter<MyNeigh
             }
         });
 
-        //Navigate to NeighbourDetailsActivity
+        //mNeighbourName navigate to NeighbourDetailsActivity
         holder.mNeighbourName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -76,23 +74,21 @@ public class MyNeighbourRecyclerViewAdapter extends RecyclerView.Adapter<MyNeigh
 
                 intent.putExtra(NEIGHBOUR, neighbourJson);
 
-                /**intent.putExtra(NEIGHBOUR_AVATAR, neighbour.getAvatarUrl());
-                intent.putExtra(NEIGHBOUR_NAME, neighbour.getName());
-                intent.putExtra(NEIGHBOUR_ID, neighbour.getId());
-                intent.putExtra(NEIGHBOUR_ADDRESS, neighbour.getAddress());
-                intent.putExtra(AVATAR_DETAIL, neighbour.getAvatarUrl());*/
-
                 view.getContext().startActivity(intent);
             }
         });
     }
 
+    //Return the total count of items
     @Override
     public int getItemCount() {
-        return mNeighbours.size();
+        return mNeighbourList.size();
     }
 
+    //Class ViewHolder for UI components
     public class ViewHolder extends RecyclerView.ViewHolder {
+
+        //UI components
         @BindView(R.id.item_list_avatar)
         public ImageView mNeighbourAvatar;
         @BindView(R.id.item_list_name)
@@ -100,6 +96,7 @@ public class MyNeighbourRecyclerViewAdapter extends RecyclerView.Adapter<MyNeigh
         @BindView(R.id.item_list_delete_button)
         public ImageButton mDeleteButton;
 
+        //Constructor
         public ViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);

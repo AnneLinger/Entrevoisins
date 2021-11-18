@@ -1,4 +1,4 @@
-package com.openclassrooms.entrevoisins.ui.neighbour_list;
+package com.openclassrooms.entrevoisins.ui.neighbour_list.activities;
 
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -8,6 +8,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
 import com.openclassrooms.entrevoisins.R;
+import com.openclassrooms.entrevoisins.ui.neighbour_list.activities.AddNeighbourActivity;
+import com.openclassrooms.entrevoisins.ui.neighbour_list.adapters.ListNeighbourPagerAdapter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -23,7 +25,9 @@ public class ListNeighbourActivity extends AppCompatActivity {
     @BindView(R.id.container)
     ViewPager mViewPager;
 
+    //ViewPager adapter
     ListNeighbourPagerAdapter mPagerAdapter;
+
     //TAG for lifecycle (logs)
     private final String TAG = getClass().getSimpleName();
 
@@ -32,19 +36,19 @@ public class ListNeighbourActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_neighbour);
         ButterKnife.bind(this);
-
         setSupportActionBar(mToolbar);
+
+        //ViewPager configuration
         mPagerAdapter = new ListNeighbourPagerAdapter(getSupportFragmentManager());
         mViewPager.setAdapter(mPagerAdapter);
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabLayout));
         mTabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
 
-        Log.d(TAG, "onCreate: ");
-    }
+        Log.d(TAG, "onCreate:  Anne");    }
 
     @OnClick(R.id.add_neighbour)
     void addNeighbour() {
         AddNeighbourActivity.navigate(this);
-        Log.d(TAG, "addNeighbour: ");
-    }
+
+        Log.d(TAG, "addNeighbour:  Anne");    }
 }

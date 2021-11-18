@@ -2,6 +2,7 @@ package com.openclassrooms.entrevoisins.service;
 
 import com.openclassrooms.entrevoisins.model.Neighbour;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -11,20 +12,26 @@ import java.util.List;
 public interface NeighbourApiService {
 
     /**
-     * Get all my Neighbours
+     * Get all my Neighbours or my favorites Neighbours
+     *
+     * @param isFavorite
      * @return {@link List}
      */
-    List<Neighbour> getNeighbours();
+    List<Neighbour> getNeighbours(boolean isFavorite);
 
     /**
-     * Deletes a neighbour
+     * Delete a neighbour or remove a favorite neighbour
+     *
      * @param neighbour
+     * @param isFavorite
      */
-    void deleteNeighbour(Neighbour neighbour);
+    void deleteNeighbour(Neighbour neighbour, boolean isFavorite);
 
     /**
-     * Create a neighbour
+     * Add a neighbour or add a favorite neighbour
+     *
      * @param neighbour
+     * @param isFavorite
      */
-    void createNeighbour(Neighbour neighbour);
+    void addNeighbour(Neighbour neighbour, boolean isFavorite);
 }
