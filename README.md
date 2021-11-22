@@ -1,3 +1,2 @@
-# OpenClassrooms
-
-Ce dépôt contient une mini-application pour le P3 du parcours **Grande École du Numérique**.
+# Entrevoisins
+## Application completed and tested for the third project of my formation "Android development" with OpenClassrooms 
