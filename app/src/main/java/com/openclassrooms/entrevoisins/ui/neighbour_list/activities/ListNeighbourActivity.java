@@ -44,11 +44,13 @@ public class ListNeighbourActivity extends AppCompatActivity {
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabLayout));
         mTabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
 
-        Log.d(TAG, "onCreate:  Anne");    }
+        Log.d(TAG, "onCreate:  Anne");
+    }
 
     @OnClick(R.id.add_neighbour)
     void addNeighbour() {
         AddNeighbourActivity.navigate(this);
 
-        Log.d(TAG, "addNeighbour:  Anne");    }
+        Log.d(TAG, "addNeighbour:  Anne");
+    }
 }

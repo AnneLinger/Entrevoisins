@@ -62,7 +62,7 @@ public class MyNeighbourRecyclerViewAdapter extends RecyclerView.Adapter<MyNeigh
             }
         });
 
-        //mNeighbourName navigate to NeighbourDetailsActivity
+        //itemView navigate to NeighbourDetailsActivity
         holder.mNeighbourName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -55,16 +55,15 @@ public class AddNeighbourActivity extends AppCompatActivity {
         mApiService = DI.getNeighbourApiService();
         init();
 
-        Log.d(TAG, "onCreate:  Anne");    }
+        Log.d(TAG, "onCreate:  Anne");
+    }
 
     //Back button configuration
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home : {
-                finish();
-                return true;
-            }
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -78,9 +77,13 @@ public class AddNeighbourActivity extends AppCompatActivity {
         //Set button save enabled if nameInput is completed
         nameInput.getEditText().addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) { }
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
             @Override
             public void afterTextChanged(Editable s) {
                 addButton.setEnabled(s.length() > 0);
@@ -105,14 +108,16 @@ public class AddNeighbourActivity extends AppCompatActivity {
 
     /**
      * Generate a random image. Useful to mock image picker
+     *
      * @return String
      */
     String randomImage() {
-        return "https://i.pravatar.cc/150?u="+ System.currentTimeMillis();
+        return "https://i.pravatar.cc/150?u=" + System.currentTimeMillis();
     }
 
     /**
      * Used to navigate to this activity
+     *
      * @param activity
      */
     public static void navigate(FragmentActivity activity) {

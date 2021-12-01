@@ -24,7 +24,7 @@ import org.greenrobot.eventbus.Subscribe;
 import java.util.List;
 
 
-public class NeighbourFragment extends Fragment {
+public class FavoriteNeighbourFragment extends Fragment {
 
     private RecyclerView mRecyclerView;
     private static final NeighbourApiService mApiService = DI.getNeighbourApiService();
@@ -133,3 +133,4 @@ public class NeighbourFragment extends Fragment {
         initList();
     }
 }
+
