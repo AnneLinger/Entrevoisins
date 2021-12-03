@@ -2,7 +2,6 @@ package com.openclassrooms.entrevoisins.service;
 
 import com.openclassrooms.entrevoisins.di.DI;
 import com.openclassrooms.entrevoisins.model.Neighbour;
-import com.openclassrooms.entrevoisins.ui.neighbour_list.activities.NeighbourDetailsActivity;
 
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 import org.junit.Before;
@@ -10,10 +9,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
@@ -39,7 +36,7 @@ public class NeighbourServiceTest {
         assertThat(neighbours, IsIterableContainingInAnyOrder.containsInAnyOrder(expectedNeighbours.toArray()));
     }
 
-    //Get favorite neighbours list POURQUOI 2 LISTES DIFFERENTES ????
+    //Get favorite neighbours list
     @Test
     public void getFavoriteNeighboursWithSuccess() {
         //The favorite neighbours list is empty

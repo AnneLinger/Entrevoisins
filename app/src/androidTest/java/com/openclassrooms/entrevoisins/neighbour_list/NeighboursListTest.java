@@ -1,6 +1,7 @@
 
 package com.openclassrooms.entrevoisins.neighbour_list;
 
+import android.support.test.espresso.action.ViewActions;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
@@ -9,6 +10,7 @@ import android.support.test.runner.AndroidJUnit4;
 import com.openclassrooms.entrevoisins.R;
 import com.openclassrooms.entrevoisins.ui.neighbour_list.activities.ListNeighbourActivity;
 import com.openclassrooms.entrevoisins.utils.DeleteViewAction;
+import com.openclassrooms.entrevoisins.utils.DetailViewAction;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -16,30 +18,26 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.contrib.ViewPagerActions.scrollRight;
 import static android.support.test.espresso.matcher.ViewMatchers.assertThat;
 import static android.support.test.espresso.matcher.ViewMatchers.hasMinimumChildCount;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static com.openclassrooms.entrevoisins.utils.RecyclerViewItemCountAssertion.withItemCount;
+import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.core.IsNull.notNullValue;
-import static android.support.test.espresso.action.ViewActions.click;
-
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 /**
- * Test class for list of neighbours
+ * Test class for lists of neighbours
  */
 @RunWith(AndroidJUnit4.class)
 public class NeighboursListTest {
 
     // This is fixed
     private static int ITEMS_COUNT = 12;
+    private static int FAVORITE_ITEMS_COUNT = 0;
 
     private ListNeighbourActivity mActivity;
-    //private ListNeighbourPagerAdapter mPagerAdapter;
-    //private NeighbourApiService mService;
 
     @Rule
     public ActivityTestRule<ListNeighbourActivity> mActivityRule =
@@ -57,8 +55,27 @@ public class NeighboursListTest {
     @Test
     public void myNeighboursList_shouldNotBeEmpty() {
         // First scroll to the position that needs to be matched and click on it.
-        onView(ViewMatchers.withId(R.id.list_neighbours))
-                .check(matches(hasMinimumChildCount(1)));
+        onView(allOf(ViewMatchers.withId(R.id.list_neighbours), isDisplayed())).check(matches(hasMinimumChildCount(1)));
+    }
+
+    /**
+     * When we click on a Neighbour, NeighbourDetailsActivity is launched
+     */
+    @Test
+    public void myNeighbourList_clickOnANeighbour_shouldLaunchNeighbourDetailsActivity() {
+        onView(allOf(ViewMatchers.withId(R.id.list_neighbours), isDisplayed()))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(1, new DetailViewAction()));
+        onView(ViewMatchers.withId(R.id.detail_neighbour)).check(matches(isDisplayed()));
+    }
+
+    /**
+     * We ensure that TextView is filled with the neighbour name in NeighbourDetailsActivity
+     */
+    @Test
+    public void myNeighbourDetailsActivity_neighbourNameIsDisplayedInTextView() {
+        onView(allOf(ViewMatchers.withId(R.id.list_neighbours), isDisplayed()))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, new DetailViewAction()));
+        onView(ViewMatchers.withId(R.id.tv_name)).check(matches(withText("Caroline")));
     }
 
     /**
@@ -67,57 +84,31 @@ public class NeighboursListTest {
     @Test
     public void myNeighboursList_deleteAction_shouldRemoveItem() {
         // Given : We remove the element at position 2
-        onView(ViewMatchers.withId(R.id.list_neighbours)).check(withItemCount(ITEMS_COUNT));
+        onView(allOf(ViewMatchers.withId(R.id.list_neighbours), isDisplayed())).check(withItemCount(ITEMS_COUNT));
         // When perform a click on a delete icon
-        onView(ViewMatchers.withId(R.id.list_neighbours))
+        onView(allOf(ViewMatchers.withId(R.id.list_neighbours), isDisplayed()))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(1, new DeleteViewAction()));
-        // Then : the number of element is 11
-        onView(ViewMatchers.withId(R.id.list_neighbours)).check(withItemCount(ITEMS_COUNT-1));
+        // Then : the number of elements is 11
+        onView(allOf(ViewMatchers.withId(R.id.list_neighbours), isDisplayed())).check(withItemCount(ITEMS_COUNT - 1));
     }
 
     /**
-     * When we click on a Neighbour, NeighbourDetailsActivity is launched
-
-    @Test
-    public void myNeighbourList_clickOnANeighbour_shouldLaunchNeighbourDetailsActivity() {
-        //onView(ViewMatchers.withId(R.id.section_label)).perform(ViewActions.click());
-        //onView(ViewMatchers.withId(R.id.section_label)).check()
-
-        //onView(ViewMatchers.withId(R.id.list_neighbours)).check(withItemCount(ITEMS_COUNT));
-        //onView(ViewMatchers.withId(R.id.list_neighbours)).perform(RecyclerViewActions.actionOnItemAtPosition(1, new DetailViewAction()));
-        //intended(hasComponent(NeighbourDetailsActivity.class.getName()));
-
-        //onView(withId(actionOnHolderItem(R.id.item_list_name))).perform(actionOnItemAtPosition(0, click()));
-        //onView(ViewMatchers.withId(R.id.item_list_name)).perform(actionOnItemAtPosition(0, click()));
-        //intended(hasComponent(NeighbourDetailsActivity.class.getName()));
-    }
-
-
      * When the ViewPager is on position 1, only favorite neighbours are displayed
-
+     */
     @Test
-    public void myNeighbourList_itemOnPositionOne_shouldDisplayFavoriteNeighboursList() {
-        //The ViewPager is on position 1
-        mPagerAdapter.getItem(1);
+    public void myNeighbourList_viewPagerOnPositionOne_shouldDisplayOnlyFavoriteNeighbours() {
+        //When we click on My Neighbours
+        onView(ViewMatchers.withText("My neighbours"))
+                .perform(ViewActions.click());
+        //There are 12 items displayed
+        onView(allOf(ViewMatchers.withId(R.id.list_neighbours), isDisplayed()))
+                .check(withItemCount(ITEMS_COUNT));
 
-        //The neighbour list is not empty
-        List<Neighbour> mNeighbourList = mService.getNeighbours(false);
-        assertFalse(mNeighbourList.isEmpty());
-
-        //The favorite neighbour list is empty
-        List<Neighbour> mFavoriteNeighbourList = mService.getNeighbours(true);
-        assertTrue(mFavoriteNeighbourList.isEmpty());
-
-        //The view is empty
-        onView(ViewMatchers.withId((R.id.list_neighbours))).check(matches(not(hasDescendant(any(View.class)))));
-
-        /**mNeighbour isn't a favorite neighbour
-        Neighbour mNeighbour = mService.getNeighbours(false).get(0);
-        List<Neighbour> mNeighbourList = mService.getNeighbours(false);
-        assertFalse(mNeighbourList.contains(mNeighbour));
-
-        //mNeighbour is not displayed
-        onView(ViewMatchers.withId(R.id.list_neighbours))
-                .check(matches());
-    }*/
+        //When we click on Favorites
+        onView(ViewMatchers.withText("Favorites"))
+                .perform(ViewActions.click());
+        //There is no item to display
+        onView(allOf(ViewMatchers.withId(R.id.list_neighbours), isDisplayed()))
+                .check(withItemCount(FAVORITE_ITEMS_COUNT));
+    }
 }

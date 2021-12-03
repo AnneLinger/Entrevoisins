@@ -4,7 +4,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.openclassrooms.entrevoisins.ui.neighbour_list.fragment.FavoriteNeighbourFragment;
 import com.openclassrooms.entrevoisins.ui.neighbour_list.fragment.NeighbourFragment;
 
 
@@ -27,7 +26,7 @@ public class ListNeighbourPagerAdapter extends FragmentPagerAdapter {
             case 0:
                 return NeighbourFragment.newInstance(false);
             case 1:
-                return FavoriteNeighbourFragment.newInstance(true);
+                return NeighbourFragment.newInstance(true);
             default:
                 return null;
         }
