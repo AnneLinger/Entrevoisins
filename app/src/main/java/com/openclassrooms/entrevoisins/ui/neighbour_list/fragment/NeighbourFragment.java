@@ -2,7 +2,6 @@ package com.openclassrooms.entrevoisins.ui.neighbour_list.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.LongDef;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -28,7 +27,7 @@ import java.util.List;
 public class NeighbourFragment extends Fragment {
 
     private RecyclerView mRecyclerView;
-    private static NeighbourApiService mApiService = DI.getNeighbourApiService();
+    private static final NeighbourApiService mApiService = DI.getNeighbourApiService();
     private static List<Neighbour> mNeighbourList;
 
     //Fragment initialization parameter
@@ -39,6 +38,7 @@ public class NeighbourFragment extends Fragment {
 
     /**
      * Create and return a new instance
+     *
      * @param isFavorite
      * @return @{@link NeighbourFragment}
      */
@@ -50,11 +50,10 @@ public class NeighbourFragment extends Fragment {
         args.putBoolean(IS_FAVORITE, isFavorite);
         fragment.setArguments(args);
 
-        //Get neighbours or favorites neighbours
-        if (isFavorite){
+        //Get neighbours or favorite neighbours
+        if (isFavorite) {
             mApiService.getNeighbours(true);
-        }
-        else {
+        } else {
             mApiService.getNeighbours(false);
         }
 
@@ -65,7 +64,8 @@ public class NeighbourFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Log.d(TAG, "onCreate:  Anne");    }
+        Log.d(TAG, "onCreate:  Anne");
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -87,10 +87,9 @@ public class NeighbourFragment extends Fragment {
      * Init the list of neighbours
      */
     private void initList() {
-        if (getArguments().getBoolean(IS_FAVORITE) == true){
+        if (getArguments().getBoolean(IS_FAVORITE)) {
             mNeighbourList = mApiService.getNeighbours(true);
-        }
-        else {
+        } else {
             mNeighbourList = mApiService.getNeighbours(false);
         }
 
@@ -124,6 +123,7 @@ public class NeighbourFragment extends Fragment {
 
     /**
      * Fired if the user clicks on a delete button
+     *
      * @param event
      */
     @Subscribe

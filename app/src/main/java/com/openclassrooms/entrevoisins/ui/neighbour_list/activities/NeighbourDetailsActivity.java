@@ -23,7 +23,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class NeighbourDetailsActivity extends AppCompatActivity{
+public class NeighbourDetailsActivity extends AppCompatActivity {
 
     //UI components
     @BindView(R.id.tb_details)
@@ -46,14 +46,11 @@ public class NeighbourDetailsActivity extends AppCompatActivity{
     TextView mAboutText;
 
     private Neighbour mNeighbour;
-    private NeighbourApiService mApiService = DI.getNeighbourApiService();
-    private List<Neighbour> mFavoritesNeighboursList = mApiService.getNeighbours(true);
+    private final NeighbourApiService mApiService = DI.getNeighbourApiService();
+    private final List<Neighbour> mFavoriteNeighboursList = mApiService.getNeighbours(true);
 
     //Key for Gson
     private final String NEIGHBOUR = "NEIGHBOUR";
-
-    //Social String
-    private final String mSocialText = "www.facebook.fr/";
 
     //TAG for lifecycle (logs)
     private final String TAG = getClass().getSimpleName();
@@ -77,11 +74,11 @@ public class NeighbourDetailsActivity extends AppCompatActivity{
         mLittleName.setText(mNeighbour.getName());
         mAddress.setText(mNeighbour.getAddress());
         mPhoneNumber.setText(mNeighbour.getPhoneNumber());
-        mSocial.setText(mSocialText+mNeighbour.getName().toLowerCase(Locale.ROOT));
+        mSocial.setText(getString(R.string.social_text) + mNeighbour.getName().toLowerCase(Locale.ROOT));
         mAboutText.setText(mNeighbour.getAboutMe());
 
         //Check if mNeighbour is a favorite or no to define mFavoriteButton
-        if (mFavoritesNeighboursList.contains(mNeighbour)){
+        if (mFavoriteNeighboursList.contains(mNeighbour)) {
             mFavoriteButton.setImageDrawable(getDrawable(R.drawable.ic_star_yellow_24dp));
         }
 
@@ -89,7 +86,7 @@ public class NeighbourDetailsActivity extends AppCompatActivity{
     }
 
     //Toolbar configuration
-    private void configureToolbar(){
+    private void configureToolbar() {
         //Toolbar as ActionBar
         setSupportActionBar(mToolbar);
 
@@ -102,18 +99,17 @@ public class NeighbourDetailsActivity extends AppCompatActivity{
 
     //FavoriteButton configuration
     @OnClick(R.id.bt_favorite)
-        void addOrRemoveFavoriteNeighbour() {
-            if (mFavoritesNeighboursList.contains(mNeighbour)){
-                mApiService.deleteNeighbour(mNeighbour, true);
-                mFavoriteButton.setImageDrawable(getDrawable(R.drawable.ic_star_border_yellow_24dp));
-                Toast toast = Toast.makeText(this, getString(R.string.remove_from_favorites), Toast.LENGTH_LONG);
-                toast.show();
-            }
-            else {
-                mApiService.addNeighbour(mNeighbour, true);
-                mFavoriteButton.setImageDrawable(getDrawable(R.drawable.ic_star_yellow_24dp));
-                Toast toast = Toast.makeText(this, getString(R.string.add_to_favorites), Toast.LENGTH_LONG);
-                toast.show();
-            }
+    public void addOrRemoveAFavoriteNeighbour() {
+        if (mFavoriteNeighboursList.contains(mNeighbour)) {
+            mApiService.deleteNeighbour(mNeighbour, true);
+            mFavoriteButton.setImageDrawable(getDrawable(R.drawable.ic_star_border_yellow_24dp));
+            Toast toast = Toast.makeText(this, getString(R.string.remove_from_favorites), Toast.LENGTH_LONG);
+            toast.show();
+        } else {
+            mApiService.addNeighbour(mNeighbour, true);
+            mFavoriteButton.setImageDrawable(getDrawable(R.drawable.ic_star_yellow_24dp));
+            Toast toast = Toast.makeText(this, getString(R.string.add_to_favorites), Toast.LENGTH_LONG);
+            toast.show();
         }
+    }
 }
