@@ -3,14 +3,21 @@
 ***
 ## Table of Contents
 1. Technologies and IDE
-2. App description
-3. Tests and current status
-4. To improve
+2. Compile and run the app
+3. App description
+4. Tests and current status
+5. To improve
 ***
 ## Technologies and IDE
 * Langage : Java
 * Frameworks : Butterknife, Gson, Glide, EventBus, Expresso
 * IDE : Android Studio
+***
+## Compile and run the app
+* Download the zip folder of the code from this repository
+* Extract all its files
+* Open Entrevoisins with Android Studio. Note that you need the version 2020.3.1 or newer of the Android Support plugin for IntelliJ IDEA.
+* Launch the app on a device with "run 'app'" or shift+F10
 
 ***
 ## App description
