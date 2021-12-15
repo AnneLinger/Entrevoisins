@@ -50,13 +50,6 @@ public class NeighbourFragment extends Fragment {
         args.putBoolean(IS_FAVORITE, isFavorite);
         fragment.setArguments(args);
 
-        //Get neighbours or favorite neighbours
-        if (isFavorite) {
-            mApiService.getNeighbours(true);
-        } else {
-            mApiService.getNeighbours(false);
-        }
-
         return fragment;
     }
 
@@ -87,11 +80,8 @@ public class NeighbourFragment extends Fragment {
      * Init the list of neighbours
      */
     private void initList() {
-        if (getArguments().getBoolean(IS_FAVORITE)) {
-            mNeighbourList = mApiService.getNeighbours(true);
-        } else {
-            mNeighbourList = mApiService.getNeighbours(false);
-        }
+        //Recover the neighbour list or the favorite neighbours
+        mNeighbourList = mApiService.getNeighbours(getArguments().getBoolean(IS_FAVORITE));
 
         //Items of the RecyclerView filled with mNeighbourList
         mRecyclerView.setAdapter((new MyNeighbourRecyclerViewAdapter(mNeighbourList)));
