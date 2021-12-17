@@ -64,9 +64,8 @@ public class NeighbourDetailsActivity extends AppCompatActivity {
         //Toolbar configuration
         this.configureToolbar();
 
-        //Gson to recover mNeighbour
-        Gson gson = new Gson();
-        mNeighbour = gson.fromJson(getIntent().getStringExtra(NEIGHBOUR), Neighbour.class);
+        //Recover the neighbour object from Parcel
+        mNeighbour = getIntent().getParcelableExtra(NEIGHBOUR);
 
         //Neighbour methods on UI components to recover details
         Glide.with(this).load(mNeighbour.getAvatarUrl()).into(mAvatar);

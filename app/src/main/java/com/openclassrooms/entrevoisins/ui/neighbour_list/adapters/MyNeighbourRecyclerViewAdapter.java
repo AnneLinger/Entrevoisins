@@ -66,13 +66,9 @@ public class MyNeighbourRecyclerViewAdapter extends RecyclerView.Adapter<MyNeigh
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                Gson gson = new Gson();
-                String neighbourJson = gson.toJson(neighbour);
-
                 Intent intent = new Intent(view.getContext(), NeighbourDetailsActivity.class);
 
-                intent.putExtra(NEIGHBOUR, neighbourJson);
+                intent.putExtra(NEIGHBOUR, neighbour);
 
                 view.getContext().startActivity(intent);
             }
